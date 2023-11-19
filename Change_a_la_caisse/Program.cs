@@ -1,17 +1,17 @@
 ﻿// Titre : trouver les coupures en 100$, 50$, 20$, 10$, 5$, 2$, 1$, 0,25$, 0,10$ et 0,05$ d'un montant d'argent donné,
 // arrondi aux 5 cents près, de façon à donner le moins d'espèces de monnaie que possible
 
-// Déclarer les constantes
-int[] COUPURES_EN_CENTS = new int[10] { 10000, 5000, 2000, 1000, 500, 200, 100, 25, 10, 5 };
-
-// Déclarer les variables
-int[] monnaie = new int[COUPURES_EN_CENTS.Length];
+// Déclarer la variable
 string continuer = "";
 
-// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur d ela variable resultat n'est pas égale à "non"
+// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur de la variable resultat n'est pas égale à "non"
 do
 {
-    // Déclarer et initialiser les variables
+    // Déclarer les constantes
+    int[] COUPURES_EN_CENTS = new int[10] { 10000, 5000, 2000, 1000, 500, 200, 100, 25, 10, 5 };
+
+    // Déclarer et/ou initialiser les variables
+    int[] monnaie = new int[COUPURES_EN_CENTS.Length];
     double montant_en_cents = -1;
     double montant_a_decomposer = -1;
 
@@ -44,8 +44,8 @@ do
         }
     }
 
-    // Afficher la ligne suivante
-    Console.WriteLine("\nPour avoir le moins de billets et de pièces possible avec " + (montant_en_cents / 100).ToString("0.00") + "$, arrondi aux 5 cents près, il faut décomposer le montant total dans les coupures suivantes :");
+    // Afficher ce message
+    Console.WriteLine("\nPour avoir le moins de billets et de pièces possible avec " + (montant_en_cents / (double)100).ToString("0.00") + "$, arrondi aux 5 cents près, il faut décomposer le montant total dans les coupures suivantes :");
 
     // Calculer les quantités de chaque coupure de monnaie, puis afficher chaque résultat
     for (int compteur_de_coupures = 0; compteur_de_coupures < COUPURES_EN_CENTS.Length; compteur_de_coupures++)
