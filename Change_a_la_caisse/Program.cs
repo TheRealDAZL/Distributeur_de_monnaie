@@ -4,7 +4,7 @@
 // Déclarer la variable
 string continuer = "";
 
-// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur de la variable resultat n'est pas égale à "non"
+// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur de la variable continuer n'est pas égale à "non"
 do
 {
     // Déclarer les constantes
