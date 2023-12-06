@@ -5,34 +5,30 @@
 int[] COUPURES_EN_CENTS = new int[10] { 10000, 5000, 2000, 1000, 500, 200, 100, 25, 10, 5 };
 string continuer = "";
 
-// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur de la variable continuer n'est pas égale à "non"
+// Effectuer les instructions suivantes, puis répéter la boucle tant que la valeur de la variable continuer n'est pas égale à "n"
 do
 {
-    // Déclarer et/ou initialiser les variables
-    double[] monnaie = new double[COUPURES_EN_CENTS.Length];
-
-    // Exécuter la méthode EntreeEtValidationDonnees(montant_en_cents, montant_a_decomposer), et enregister les valeurs retournées
-    // dans une var donnees. Initialiser les variables montant_en_cents et montant_a_decomposer avec les items de la var donnees
+    // Exécuter la méthode EntreeEtValidationDonnees(), et enregister les valeurs retournées dans une var donnees
     var donnees = EntreeEtValidationDonnees();
-    double montant_en_cents = donnees.Item1;
-    double montant_a_decomposer = donnees.Item2;
 
-    // Exécuter la méthode CalculerResultats(monnaie, montant_en_cents, montant_a_decomposer)
-    CalculerResultats(montant_en_cents, montant_a_decomposer);
+    // Exécuter la méthode CalculerResultats(donnees.Item1, donnees.Item2). La valeur de donnees.Item1 correspond à montant_en_cents
+    // et la valeur de donnees.Item2 correspond à montant_a_decomposer
+    CalculerEtAfficherResultats(donnees.Item1, donnees.Item2);
 
-    // Exécuter la méthode AffichageFinal(continuer), et enregistrer la valeur retournée dans le string continuer
-    continuer = AffichageFinal(continuer);
+    // Exécuter la méthode AffichageFinal(), et enregistrer la valeur retournée dans le string continuer
+    continuer = AffichageContinuerOuPas();
 } while (continuer != "n");
 
 
 
 Tuple<double, double> EntreeEtValidationDonnees()
 {
-    double montant_en_cents_2 = -1;
-    double montant_a_decomposer_2 = -1;
+    // Déclarer et initialiser les variables
+    double montant_en_cents = -1;
+    double montant_a_decomposer = -1;
 
     // Effectuer les opérations suivantes, tant que montant_en_cents est un nombre négatif
-    while (montant_en_cents_2 < 0)
+    while (montant_en_cents < 0)
     {
         // Exécuter le bloc de code qui suit, en cherchant pour des erreurs
         try
@@ -41,10 +37,10 @@ Tuple<double, double> EntreeEtValidationDonnees()
             Console.WriteLine("Entrez le montant d’argent à décomposer en coupures, dans le format 0,00 :");
 
             // Définir la variable, et tronquer le montant total à une valeure entière après l'avoir transformé en cents
-            montant_en_cents_2 = double.Parse(Console.ReadLine()) * 100;
+            montant_en_cents = double.Parse(Console.ReadLine()) * 100;
 
             // Trouver le montant arrondi aux 5 cents près
-            montant_a_decomposer_2 = montant_en_cents_2 - montant_en_cents_2 % 5 + Math.Round((montant_en_cents_2 % 5) / 5) * 5;
+            montant_a_decomposer = montant_en_cents - montant_en_cents % 5 + Math.Round((montant_en_cents % 5) / 5) * 5;
         }
 
         // S'il y a une erreur dans le bloc de code précédent, afficher ce message
@@ -60,14 +56,16 @@ Tuple<double, double> EntreeEtValidationDonnees()
         }
     }
 
-    return new Tuple<double, double>(montant_en_cents_2, montant_a_decomposer_2);
+    // Retourner un objet Tuple<double, double>(montant_en_cents, montant_a_decomposer)
+    return new Tuple<double, double>(montant_en_cents, montant_a_decomposer);
 }
-void CalculerResultats(double montant_en_cents_2, double montant_a_decomposer_2)
+void CalculerEtAfficherResultats(double montant_en_cents, double montant_a_decomposer)
 {
-    double[] monnaie_2 = new double[COUPURES_EN_CENTS.Length];
+    // Déclarer et initialiser la variable
+    double[] monnaie = new double[COUPURES_EN_CENTS.Length];
 
     // Afficher ce message
-    Console.WriteLine("\nPour avoir le moins de billets et de pièces possible avec " + (montant_en_cents_2 / 100).ToString("0.00") + "$, arrondi aux 5 cents près, il faut décomposer le montant total dans les coupures suivantes :");
+    Console.WriteLine("\nPour avoir le moins de billets et de pièces possible avec " + (montant_en_cents / 100).ToString("0.00") + "$, arrondi aux 5 cents près, il faut décomposer le montant total dans les coupures suivantes :");
 
     // Calculer les quantités de chaque coupure de monnaie, puis afficher chaque résultat
     for (int compteur_de_coupures = 0; compteur_de_coupures < COUPURES_EN_CENTS.Length; compteur_de_coupures++)
@@ -77,29 +75,30 @@ void CalculerResultats(double montant_en_cents_2, double montant_a_decomposer_2)
         // Cela va nous donner un nombre qui, lorsque divisé par COUPURES_EN_CENTS[compteur_de_coupures], nous donnera un résultat entier;
         // Étape 2 -> Diviser le résultat de l'étape 1 par la valeur de COUPURES_EN_CENTS[compteur_de_coupures];
         // Étape 3 -> Mémoriser le résultat de l'étape 3 dans la variable monnaie[compteur_de_coupures], qui est une variable int[].
-        monnaie_2[compteur_de_coupures] = (montant_a_decomposer_2 - montant_a_decomposer_2 % COUPURES_EN_CENTS[compteur_de_coupures]) / COUPURES_EN_CENTS[compteur_de_coupures];
+        monnaie[compteur_de_coupures] = (montant_a_decomposer - montant_a_decomposer % COUPURES_EN_CENTS[compteur_de_coupures]) / COUPURES_EN_CENTS[compteur_de_coupures];
 
         // Prendre le montant_a_decomposer et lui soustraire le résultat de l'opération monnaie[compteur_de_coupures] * COUPURES_EN_CENTS[compteur_de_coupures].
         // Mémoriser le résultat dans la variable montant_a_decomposer.
-        montant_a_decomposer_2 = montant_a_decomposer_2 - monnaie_2[compteur_de_coupures] * COUPURES_EN_CENTS[compteur_de_coupures];
+        montant_a_decomposer = montant_a_decomposer - monnaie[compteur_de_coupures] * COUPURES_EN_CENTS[compteur_de_coupures];
 
         // Afficher ce message
-        Console.WriteLine(monnaie_2[compteur_de_coupures] + " * " + (COUPURES_EN_CENTS[compteur_de_coupures] / (double)100).ToString("0.00") + "$");
+        Console.WriteLine(monnaie[compteur_de_coupures] + " * " + ((double)COUPURES_EN_CENTS[compteur_de_coupures] / 100).ToString("0.00") + "$");
     }
 }
-string AffichageFinal(string reponse)
+string AffichageContinuerOuPas()
 {
     // Afficher ce message
     Console.WriteLine("\nVoulez-vous continuer? Tapez \"n\" (pour non), puis appuyez sur la touche Entrée pour terminer le programme.");
 
     // Lire la réponse
-    reponse = Console.ReadLine();
+    string reponse = Console.ReadLine();
 
-    // Si la variable continuer n'est pas vide, alors on prend le premier caractère et on le met en minuscule
+    // Si la variable continuer n'est pas vide, prendre le premier caractère et le mettre en minuscule
     if (reponse != "")
     {
         reponse = reponse.Substring(0, 1).ToLower();
     }
 
+    // Retourner la valeur du string reponse
     return reponse;
 }
