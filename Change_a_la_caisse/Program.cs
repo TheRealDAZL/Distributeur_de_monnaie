@@ -36,8 +36,9 @@ Tuple<double, double> EntreeEtValidationDonnees()
             // Afficher ce message
             Console.WriteLine("Entrez le montant d’argent à décomposer en coupures, dans le format 0,00 :");
 
-            // Définir la variable, et tronquer le montant total à une valeure entière après l'avoir transformé en cents
-            montant_en_cents = double.Parse(Console.ReadLine()) * 100;
+            // Définir la variable, lire la console, convertir la lecture en cents, puis tronquer le montant
+            // total à une valeure entière
+            montant_en_cents = Math.Truncate(double.Parse(Console.ReadLine()) * 100);
 
             // Trouver le montant arrondi aux 5 cents près
             montant_a_decomposer = montant_en_cents - montant_en_cents % 5 + Math.Round((montant_en_cents % 5) / 5) * 5;
@@ -59,6 +60,7 @@ Tuple<double, double> EntreeEtValidationDonnees()
     // Retourner un objet Tuple<double, double>(montant_en_cents, montant_a_decomposer)
     return new Tuple<double, double>(montant_en_cents, montant_a_decomposer);
 }
+
 void CalculerEtAfficherResultats(double montant_en_cents, double montant_a_decomposer)
 {
     // Déclarer et initialiser la variable
@@ -85,6 +87,7 @@ void CalculerEtAfficherResultats(double montant_en_cents, double montant_a_decom
         Console.WriteLine(monnaie[compteur_de_coupures] + " * " + ((double)COUPURES_EN_CENTS[compteur_de_coupures] / 100).ToString("0.00") + "$");
     }
 }
+
 string AffichageContinuerOuPas()
 {
     // Afficher ce message
